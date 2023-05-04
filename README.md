@@ -6,7 +6,11 @@
 
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/BigJk/imeji)
 
-imeji is a lightweight alternative to the awesome [chafa](https://hpjansson.org/chafa/). It is written in go and can be easily embedded into tools. 
+imeji is a lightweight alternative to the awesome [chafa](https://hpjansson.org/chafa/). It is written in go and can be easily embedded into tools. imeji takes a image as input and creates a sequence of characters and ansi color sequences resulting in a terminal printable images.
+
+### Why not use chafa?
+
+If you can install chafa it should be preferred, as it is more advanced, faster and just awesome! But if you want to include terminal image output in your go application and don't want to ship chafa as external dependency imeji might be worth a try.
 
 # CLI
 
