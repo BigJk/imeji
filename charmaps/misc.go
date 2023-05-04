@@ -1,0 +1,28 @@
+package charmaps
+
+var Misc = []Pattern{
+	MustNewPattern("⎺", "\n        \nXXXXXXXX\n        \n        \n        \n        \n        \n        "),
+	MustNewPattern("⎻", "\n        \n        \n        \nXXXXXXXX\n        \n        \n        \n        "),
+	MustNewPattern("⎼", "\n        \n        \n        \n        \nXXXXXXXX\n        \n        \n        "),
+	MustNewPattern("⎽", "\n        \n        \n        \n        \n        \n        \nXXXXXXXX\n        "),
+	MustNewPattern("▮", "\n        \n XXXXXX \n XXXXXX \n XXXXXX \n XXXXXX \n XXXXXX \n XXXXXX \n        "),
+	MustNewPattern("■", "\n        \n        \n XXXXXX \n XXXXXX \n XXXXXX \n XXXXXX \n        \n        "),
+	MustNewPattern("▪", "\n        \n        \n  XXXX  \n  XXXX  \n  XXXX  \n  XXXX  \n        \n        "),
+	MustNewPattern("▲", "\n        \n   XX   \n  XXXX  \n XXXXXX \n XXXXXX \nXXXXXXXX\n        \n        "),
+	MustNewPattern("▶", "\n X      \n XXX    \n XXXX   \n XXXXXX \n XXXX   \n XXX    \n X      \n        "),
+	MustNewPattern("▼", "\n        \nXXXXXXXX\n XXXXXX \n XXXXXX \n  XXXX  \n   XX   \n        \n        "),
+	MustNewPattern("◀", "\n      X \n    XXX \n   XXXX \n XXXXXX \n   XXXX \n    XXX \n      X \n        "),
+	MustNewPattern("◆", "\n        \n   XX   \n  XXXX  \n XXXXXX \n  XXXX  \n   XX   \n        \n        "),
+	MustNewPattern("●", "\n        \n  XXXX  \n XXXXXX \n XXXXXX \n XXXXXX \n  XXXX  \n        \n        "),
+	MustNewPattern("◢", "\n        \n        \n     XX \n    XXX \n   XXXX \n XXXXXX \n        \n        "),
+	MustNewPattern("◣", "\n        \n        \n XX     \n XXX    \n XXXX   \n XXXXXX \n        \n        "),
+	MustNewPattern("◤", "\n        \n        \n XXXXXX \n XXXX   \n XXX    \n XX     \n        \n        "),
+	MustNewPattern("◥", "\n        \n        \n XXXXXX \n   XXXX \n    XXX \n     XX \n        \n        "),
+	MustNewPattern("◼", "\n        \n        \n  XXXX  \n  XXXX  \n  XXXX  \n  XXXX  \n        \n        "),
+	MustNewPattern("·", "\n        \n        \n        \n   XX   \n   XX   \n        \n        \n        "),
+	MustNewPattern("·", "\n        \n        \n        \n  XX    \n  XX    \n        \n        \n        "),
+	MustNewPattern("·", "\n        \n        \n        \n    XX  \n    XX  \n        \n        \n        "),
+	MustNewPattern("·", "\n        \n        \n   XX   \n   XX   \n        \n        \n        \n        "),
+	MustNewPattern("·", "\n        \n        \n        \n        \n   XX   \n   XX   \n        \n        "),
+	MustNewPattern("Ξ", "\n        \n XXXXXX \n        \n  XXXX  \n        \n XXXXXX \n        \n        "),
+}
