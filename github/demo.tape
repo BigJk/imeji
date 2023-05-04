@@ -1,4 +1,5 @@
 Output demo.gif
+Output frames/
 
 Set FontSize 12
 Set Width 915

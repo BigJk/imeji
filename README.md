@@ -2,7 +2,7 @@
 
 イメジ ー Images for the terminal
 
-![demo](./github/demo.gif)
+![demo](./github/screenshot.png)
 
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/BigJk/imeji)
 
