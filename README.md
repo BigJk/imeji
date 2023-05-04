@@ -6,7 +6,7 @@
 
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/BigJk/imeji)
 
-imeji is a lightweight alternative to the awesome [chafa](https://hpjansson.org/chafa/). It is written in go and can be easily embedded into tools.
+imeji is a lightweight alternative to the awesome [chafa](https://hpjansson.org/chafa/). It is written in go and can be easily embedded into tools. 
 
 # CLI
 
@@ -34,6 +34,12 @@ _________________________________________
     	size in terminal cells (e.g. 100x20)
   -symbols string
     	which symbole sets to use (blocks, blocks_simple, blocks_adv, ascii, misc) (default "blocks")
+```
+
+### Install ``imeji`` command
+
+```
+go install github.com/BigJk/imeji/cmd/imeji@latest
 ```
 
 # Go Library
