@@ -6,6 +6,9 @@ import (
 	"github.com/muesli/termenv"
 	"image"
 	"image/color"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
 	"io"
 	"math/rand"
 	"os"
@@ -25,15 +28,14 @@ type workReq struct {
 	y int
 }
 
-type SelectionFunction func(pixel []color.Color) (string, color.Color, color.Color)
-
 // BasicSelection finds the best character, foreground and background pair matching the 8x8 pixel grid.
 func BasicSelection(options *OptionData, pixel []color.Color) (string, color.Color, color.Color) {
 	pairs := options.colorPairs
 	fgs := make([]color.Color, 0, pairs)
 	bgs := make([]color.Color, 0, pairs)
 
-	// Generate unique foreground background combos
+	// Generate unique foreground background combos. Try at most pairs * 2 times.
+	// We need to have a try limit in case the pixel have < pairs unique colors.
 pairGen:
 	for i := 0; i < pairs*2; i++ {
 		fg := pixel[rand.Intn(len(pixel))]
@@ -48,8 +50,13 @@ pairGen:
 
 		fgs = append(fgs, fg)
 		bgs = append(bgs, bg)
+
+		if len(fgs) >= pairs {
+			break
+		}
 	}
 
+	// Search for the character by minimizing against the error between character and pixels
 	best := 99999.0
 	point := " "
 	index := 0
@@ -106,9 +113,12 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 	workChan := make(chan workReq, chunkX*chunkY)
 
 	wg := &sync.WaitGroup{}
-	wg.Add(optionData.routines)
+	wg.Add(optionData.routines + 1)
 
+	// Generate work request for each pixel and send it to the channel.
 	go func() {
+		defer wg.Done()
+
 		for y := 0; y < chunkY; y++ {
 			for x := 0; x < chunkX; x++ {
 				workChan <- workReq{
@@ -118,6 +128,7 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 			}
 		}
 
+		// Wait for work channel to be fully drained
 		for len(workChan) > 0 {
 			time.Sleep(time.Millisecond)
 		}
@@ -125,8 +136,11 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 		close(workChan)
 	}()
 
+	// Start all the go routines and let them generate each pixel chunk
 	for i := 0; i < optionData.routines; i++ {
 		go func() {
+			defer wg.Done()
+
 			for req := range workChan {
 				pixel := pixelChunk(optionData.img, bounds, req.x, req.y)
 
@@ -136,13 +150,13 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 				res[req.y*chunkX+req.x].bg = bg
 				res[req.y*chunkX+req.x].point = point
 			}
-
-			wg.Done()
 		}()
 	}
 
+	// Wait for finish
 	wg.Wait()
 
+	// Collect results
 	for i := range res {
 		if _, err := out.Write([]byte(optionData.out.String(res[i].point).Foreground(optionData.out.FromColor(res[i].fg)).Background(optionData.out.FromColor(res[i].bg)).String())); err != nil {
 			return err

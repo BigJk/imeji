@@ -22,6 +22,7 @@ func patternError(pixel []color.Color, fg color.Color, bg color.Color, pattern *
 	errSum := 0.0
 
 	for i := 0; i < len(pattern.Pixel); i++ {
+		// If the pattern position is set we know this pixel needs to be compared with the foreground.
 		if pattern.IsSet(i) {
 			errSum += diff(pixel[i], fg)
 		} else {
