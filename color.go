@@ -37,9 +37,24 @@ func lightest(colors ...color.Color) color.Color {
 	return lightest
 }
 
-func diff(a color.Color, b color.Color) float64 {
-	colA, _ := colorful.MakeColor(a)
-	colB, _ := colorful.MakeColor(b)
+func sq(v uint32) uint32 {
+	return v * v
+}
 
-	return colA.DistanceRgb(colB)
+func diff(a color.Color, b color.Color) float64 {
+	ar, ag, ab, _ := a.RGBA()
+	br, bg, bb, _ := b.RGBA()
+	return float64(sq(ar-br) + sq(ag-bg) + sq(ab-bb))
+}
+
+func diffSlow(a color.Color, b color.Color) float64 {
+	ac, _ := colorful.MakeColor(a)
+	bc, _ := colorful.MakeColor(b)
+	return ac.DistanceRgb(bc)
+}
+
+func diffSlowest(a color.Color, b color.Color) float64 {
+	ac, _ := colorful.MakeColor(a)
+	bc, _ := colorful.MakeColor(b)
+	return ac.DistanceLab(bc)
 }

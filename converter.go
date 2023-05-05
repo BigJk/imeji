@@ -10,6 +10,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"math"
 	"math/rand"
 	"os"
 	"runtime"
@@ -64,7 +65,7 @@ pairGen:
 	}
 
 	// Search for the character by minimizing against the error between character and pixels
-	best := 99999.0
+	best := math.MaxFloat64
 	point := " "
 	index := 0
 	for i := range fgs {
