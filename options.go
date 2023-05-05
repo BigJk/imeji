@@ -2,6 +2,8 @@ package imeji
 
 import (
 	"github.com/BigJk/imeji/charmaps"
+	"github.com/anthonynsimon/bild/adjust"
+	"github.com/anthonynsimon/bild/effect"
 	"github.com/anthonynsimon/bild/transform"
 	"github.com/muesli/termenv"
 	"image"
@@ -98,5 +100,52 @@ func WithFontScaling(scale float64) Option {
 func WithPattern(pattern ...[]charmaps.Pattern) Option {
 	return func(data *OptionData) {
 		data.pattern = charmaps.Combine(pattern...)
+	}
+}
+
+// WithSharpen sharpens the images before conversion.
+func WithSharpen(times int) Option {
+	return func(data *OptionData) {
+		data.img = effect.Sharpen(data.img)
+	}
+}
+
+// WithGrayScale changes the image to grayscale.
+func WithGrayScale() Option {
+	return func(data *OptionData) {
+		data.img = effect.Grayscale(data.img)
+	}
+}
+
+// WithBrightness changes the brightness of the image.
+func WithBrightness(change float64) Option {
+	return func(data *OptionData) {
+		data.img = adjust.Brightness(data.img, change)
+	}
+}
+
+// WithContrast changes the contrast of the image.
+func WithContrast(change float64) Option {
+	return func(data *OptionData) {
+		data.img = adjust.Contrast(data.img, change)
+	}
+}
+
+// WithSaturation changes the saturation of the image.
+func WithSaturation(change float64) Option {
+	return func(data *OptionData) {
+		data.img = adjust.Saturation(data.img, change)
+	}
+}
+
+// WithFlip flips the picture vertically or horizontal.
+func WithFlip(h bool, v bool) Option {
+	return func(data *OptionData) {
+		if h {
+			data.img = transform.FlipH(data.img)
+		}
+		if v {
+			data.img = transform.FlipV(data.img)
+		}
 	}
 }
