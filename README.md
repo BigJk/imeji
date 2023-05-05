@@ -4,7 +4,7 @@
 
 ![demo](./github/screenshot.png)
 
-[![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/BigJk/imeji)
+[![GoReportCard](https://goreportcard.com/badge/github.com/BigJk/imeji)](https://goreportcard.com/report/github.com/BigJk/imeji) [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/BigJk/imeji)
 
 imeji is a lightweight alternative to the awesome [chafa](https://hpjansson.org/chafa/). It is written in go and can be easily embedded into tools. imeji takes a image as input and creates a sequence of characters and ansi color sequences resulting in a terminal printable images.
 
