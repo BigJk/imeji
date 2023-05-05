@@ -41,6 +41,13 @@ pairGen:
 		fg := pixel[rand.Intn(len(pixel))]
 		bg := pixel[rand.Intn(len(pixel))]
 
+		// We don't want color pairs that are fully transparent
+		_, _, _, fga := fg.RGBA()
+		_, _, _, bga := fg.RGBA()
+		if fga == 0 && bga == 0 {
+			continue
+		}
+
 		// Check if unique
 		for j := range fgs {
 			if diff(fg, fgs[j]) == 0 && diff(bg, bgs[j]) == 0 {
@@ -69,6 +76,11 @@ pairGen:
 				index = i
 			}
 		}
+	}
+
+	// For a fully transparent 8x8 pixels return empty
+	if len(fgs) == 0 {
+		return " ", color.RGBA{R: 0, G: 0, B: 0, A: 0}, color.RGBA{R: 0, G: 0, B: 0, A: 0}
 	}
 
 	return point, fgs[index], bgs[index]
@@ -158,7 +170,17 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 
 	// Collect results
 	for i := range res {
-		if _, err := out.Write([]byte(optionData.out.String(res[i].point).Foreground(optionData.out.FromColor(res[i].fg)).Background(optionData.out.FromColor(res[i].bg)).String())); err != nil {
+		str := optionData.out.String(res[i].point)
+
+		if _, _, _, a := res[i].fg.RGBA(); a > 0 {
+			str = str.Foreground(optionData.out.FromColor(res[i].fg))
+		}
+
+		if _, _, _, a := res[i].bg.RGBA(); a > 0 {
+			str = str.Background(optionData.out.FromColor(res[i].bg))
+		}
+
+		if _, err := out.Write([]byte(str.String())); err != nil {
 			return err
 		}
 
