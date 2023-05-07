@@ -69,7 +69,7 @@ I didn't find a good written reference on the technique used by Chafa and other 
 
 ## Pattern
 
-The basic idea is that you can map a single character in terminal to map it to 8x8 pixels. For each character that wants to be used in a terminal picture the pattern needs to be created. A pattern can easily be defined by an 8 line string. The pattern defines which pixels are set to the foreground color and which to the background color.
+The basic idea is that you can map a single character in terminal to 8x8 pixels of a real image. For each character that wants to be used in a terminal picture the pattern needs to be created. A pattern can easily be defined by an 8 line string. The pattern defines which pixels are set to the foreground color and which to the background color.
 
 See ``/charmaps/blocks.go`` and you will quickly get the idea.
 

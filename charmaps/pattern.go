@@ -23,7 +23,7 @@ func NewPattern(codePoint string, pixel string) (Pattern, error) {
 	// the pixel is not a space. That way we can quickly check if a pixel is set.
 	mask := uint64(0)
 	for i := range pat {
-		if pat[i] != []byte(" ")[0] {
+		if pat[i] == []byte("X")[0] {
 			mask = mask | (1 << (64 - i))
 		}
 	}
