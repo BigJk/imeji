@@ -19,6 +19,14 @@ func pixelChunk(img image.Image, bounds image.Rectangle, cx, cy int) []color.Col
 
 // patternError calculates how matching a character with foreground and background color is to the actual 8x8 pixels.
 func patternError(pixel []color.Color, fg color.Color, bg color.Color, pattern *charmaps.Pattern) float64 {
+	// TODO: Improve this with SIMD.
+	//
+	// We can load the pixel and selected pattern as 2 float slice and use SIMD to do the diffing between the pixel
+	// data in chunks. This would greatly improve the performance, as we can process more pixel with less CPU cycles.
+	// Different SIMD approaches for different Arch's would be needed. NEON for arm64 and AVX512, AVX, SSE etc. for amd64.
+	//
+	// See: https://gorse.io/posts/avx512-in-golang.html
+
 	errSum := 0.0
 
 	for i := 0; i < len(pattern.Pixel); i++ {

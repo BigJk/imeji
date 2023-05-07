@@ -62,3 +62,57 @@ imeji.File(os.Stdout, "./image.png", imeji.WithMaxWidth(100))
 text, _ := imeji.FileString("./image.png", imeji.WithTrueColor())
 fmt.Println(text)
 ```
+
+# Technique
+
+I didn't find a good written reference on the technique used by Chafa and other tools so here is a basic overview. Its important to know that in the terminal we are limited to a single foreground and background color per character. That means for each cell in the terminal we need to find the best character and foreground, background pair with the least "error" (difference) to the real picture.
+
+## Pattern
+
+The basic idea is that you can map a single character in terminal to map it to 8x8 pixels. For each character that wants to be used in a terminal picture the pattern needs to be created. A pattern can easily be defined by an 8 line string. The pattern defines which pixels are set to the foreground color and which to the background color.
+
+See ``/charmaps/blocks.go`` and you will quickly get the idea.
+
+**Examples**: 
+
+- Char: █ (Full Block -> All pixel set)
+
+```
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+XXXXXXXX
+```
+
+- Char: !
+
+```
+________
+___X____
+___X____
+___X____
+___X____
+________
+___X____
+________
+```
+
+## Procedure
+
+Now that we know how to define the pattern for a character we can convert a image to terminal printable characters.
+
+1. Chunk the image into 8x8 pixel chunks
+2. For each pixel chunk:
+   1. Randomly select a few (foreground, background) pairs from the pixels in the chunk
+   2. For all the pairs test all characters and calculate the error to the real pixels
+   3. Return the pair and character with the least error
+3. For each chunk print the selected character with the chosen foreground and background
+
+# Further Work
+
+- [ ] Better handling of alpha channel
+- [ ] Use assembler with SIMD instructions to improve pixel to pattern diffing performance
