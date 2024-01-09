@@ -13,7 +13,6 @@ import (
 	"math"
 	"math/rand"
 	"os"
-	"runtime"
 	"sync"
 	"time"
 )
@@ -70,7 +69,7 @@ pairGen:
 	index := 0
 	for i := range fgs {
 		for j := range options.pattern {
-			err := patternError(pixel, fgs[i], bgs[i], &options.pattern[j])
+			err := patternError(pixel, fgs[i], bgs[i], &options.pattern[j], best)
 			if err < best {
 				best = err
 				point = options.pattern[j].CodePoint
@@ -107,8 +106,8 @@ func Image(out io.Writer, img image.Image, options ...Option) error {
 	optionData := &OptionData{
 		pattern:    charmaps.BlocksBasic,
 		fontRatio:  0.8,
-		colorPairs: 6,
-		routines:   runtime.NumCPU(),
+		colorPairs: 4,
+		routines:   1,
 		img:        img,
 		out:        termenv.NewOutput(out, termenv.WithProfile(termenv.EnvColorProfile())),
 		buf:        out,

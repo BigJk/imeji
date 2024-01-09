@@ -4,6 +4,7 @@ import (
 	"github.com/BigJk/imeji/charmaps"
 	"image"
 	"image/color"
+	"math"
 )
 
 // pixelChunk Fetches a 8x8 image chunk from a image.
@@ -18,7 +19,7 @@ func pixelChunk(img image.Image, bounds image.Rectangle, cx, cy int) []color.Col
 }
 
 // patternError calculates how matching a character with foreground and background color is to the actual 8x8 pixels.
-func patternError(pixel []color.Color, fg color.Color, bg color.Color, pattern *charmaps.Pattern) float64 {
+func patternError(pixel []color.Color, fg color.Color, bg color.Color, pattern *charmaps.Pattern, max float64) float64 {
 	// TODO: Improve this with SIMD.
 	//
 	// We can load the pixel and selected pattern as 2 float slice and use SIMD to do the diffing between the pixel
@@ -35,6 +36,11 @@ func patternError(pixel []color.Color, fg color.Color, bg color.Color, pattern *
 			errSum += diff(pixel[i], fg)
 		} else {
 			errSum += diff(pixel[i], bg)
+		}
+
+		// If the error sum is already bigger than the max error we can stop early.
+		if errSum > max {
+			return math.MaxFloat64
 		}
 	}
 
